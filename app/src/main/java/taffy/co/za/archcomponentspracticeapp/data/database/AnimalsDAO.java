@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 @Dao
-public interface AnimalDAO {
+public interface AnimalsDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void bulkInsertAnimals(Animal... animals);
