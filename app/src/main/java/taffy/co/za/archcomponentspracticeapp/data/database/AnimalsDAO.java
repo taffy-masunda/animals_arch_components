@@ -7,6 +7,8 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
+import taffy.co.za.archcomponentspracticeapp.models.Animal;
+
 @Dao
 public interface AnimalsDAO {
 
@@ -15,6 +17,9 @@ public interface AnimalsDAO {
 
     @Query("SELECT * FROM animals")
     List<Animal> getAllAimals();
+
+    @Query("SELECT * FROM animals WHERE category = :category")
+    Animal getAnimalPerCategory(String category);
 
     @Query("SELECT * FROM animals WHERE id = :id")
     Animal getAnimal(String id);

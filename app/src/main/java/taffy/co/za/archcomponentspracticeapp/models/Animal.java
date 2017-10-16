@@ -1,4 +1,4 @@
-package taffy.co.za.archcomponentspracticeapp.data.database;
+package taffy.co.za.archcomponentspracticeapp.models;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
