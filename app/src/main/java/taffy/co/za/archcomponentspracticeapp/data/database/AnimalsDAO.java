@@ -21,6 +21,9 @@ public interface AnimalsDAO {
     @Query("SELECT * FROM animals WHERE category = :category")
     Animal getAnimalPerCategory(String category);
 
+    @Query("SELECT category FROM animals")
+    String[] getCategories();
+
     @Query("SELECT * FROM animals WHERE id = :id")
     Animal getAnimal(String id);
 }
