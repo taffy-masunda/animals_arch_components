@@ -23,19 +23,22 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
     FloatingActionButton speakOutFab;
     TextToSpeech textToSpeech;
     int result;
+    private String notSupported = "Sorry, text to speech not supported on your device.";
+    Bundle animalDetailsBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animal_details);
 
-        initializeView();
+        initializeVariables();
         setToolbar();
         setAnimalImageview();
         setViewText();
     }
 
-    private void initializeView() {
+    private void initializeVariables() {
+        animalDetailsBundle = getIntent().getExtras();
         animalImageview = findViewById(R.id.animal_imageview);
         nameTextview = findViewById(R.id.animal_name_textview);
         categoryTextview = findViewById(R.id.category_textview);
@@ -49,7 +52,7 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
                 if (status == TextToSpeech.SUCCESS) {
                     result = textToSpeech.setLanguage(Locale.US);
                 } else {
-                    Toast.makeText(AnimalDetailsActivity.this, "Sorry, text to speech not supported on your device.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AnimalDetailsActivity.this, notSupported, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -72,15 +75,20 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
 
     private void setAnimalImageview() {
         Glide.with(this)
-                .load(R.drawable.cat)
+                .load(R.drawable.horse)
                 .into(animalImageview);
     }
 
     private void setViewText() {
-        nameTextview.setText("name");
-        categoryTextview.setText("catagory");
-        habitatTextview.setText("habitat");
-        descriptionTextview.setText("description");
+        String animalName = animalDetailsBundle.get("animalName").toString();
+        String animalCategory = animalDetailsBundle.get("animalCategory").toString();
+        String animalHabitat = animalDetailsBundle.get("animalHabitat").toString();
+        String animalDescription = animalDetailsBundle.get("animalDescription").toString();
+
+        nameTextview.setText(animalName);
+        categoryTextview.setText(animalCategory);
+        habitatTextview.setText(animalHabitat);
+        descriptionTextview.setText(animalDescription);
     }
 
     @Override
@@ -88,12 +96,19 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
         switch (view.getId()) {
             case R.id.read_out_fab:
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    Toast.makeText(AnimalDetailsActivity.this, "Sorry, text to speech not supported on your device.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AnimalDetailsActivity.this, notSupported, Toast.LENGTH_SHORT).show();
                 } else {
-                    String textToSpeak = "This is a "+ nameTextview.getText().toString() + " and it lives in " + habitatTextview.getText().toString();
+                    String textToSpeak = "This is a " + nameTextview.getText().toString() + " and it lives in a " + habitatTextview.getText().toString();
                     textToSpeech.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null);
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.stop();
+        textToSpeech.shutdown();
     }
 }

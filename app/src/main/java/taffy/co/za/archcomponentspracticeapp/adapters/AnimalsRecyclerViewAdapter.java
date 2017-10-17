@@ -3,6 +3,7 @@ package taffy.co.za.archcomponentspracticeapp.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,11 +42,9 @@ public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecy
     @Override
     public void onBindViewHolder(AnimalViewHolder holder, int position) {
         holder.animalName.setText(animals.get(position).getName().toString());
-       // holder.animalDescription.setText(animals.get(position).getDescription().toString());
-
-        String imageDirectory = "C:\\Users\\tmasunda\\AndroidStudioProjects\\ArchComponentsPracticeApp\\app\\src\\main\\res\\drawable\\";
+        String imageUrl = "http://api.spectradigital.co.za/animals_app/animal_pics/" + animals.get(position).getImageUrl().toString();
         Glide.with(context)
-                .load(imageDirectory+ animals.get(position).getImageUrl())
+                .load(imageUrl)
                 .into(holder.animalImage);
     }
 
@@ -56,13 +55,15 @@ public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecy
     }
 
     public class AnimalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView animalName, animalDescription;
+        TextView animalName, animalCategory, animalHabitat, animalDescription;
         ImageView animalImage;
 
         public AnimalViewHolder(View itemView) {
             super(itemView);
             animalImage = itemView.findViewById(R.id.animal_imageview);
             animalName = itemView.findViewById(R.id.animal_name_textview);
+            //animalCategory = itemView.findViewById(R.id.description_textview);
+            //animalHabitat = itemView.findViewById(R.id.description_textview);
             //animalDescription = itemView.findViewById(R.id.description_textview);
             itemView.setOnClickListener(this);
         }
@@ -70,6 +71,12 @@ public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecy
         @Override
         public void onClick(View view) {
             Intent openDetailedAtivity = new Intent(context, AnimalDetailsActivity.class);
+            Bundle animalBundle = new Bundle();
+            animalBundle.putString("animalName", "Goat");
+            animalBundle.putString("animalCategory", "Jump");
+            animalBundle.putString("animalHabitat", "INto");
+            animalBundle.putString("animalDescription", "the river!");
+            openDetailedAtivity.putExtras(animalBundle);
             context.startActivity(openDetailedAtivity);
         }
     }

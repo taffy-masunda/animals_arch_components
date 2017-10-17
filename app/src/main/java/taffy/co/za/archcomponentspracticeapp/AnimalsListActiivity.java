@@ -1,15 +1,24 @@
 package taffy.co.za.archcomponentspracticeapp;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import taffy.co.za.archcomponentspracticeapp.adapters.AnimalsRecyclerViewAdapter;
+import taffy.co.za.archcomponentspracticeapp.data.service.AnimalAPI;
+import taffy.co.za.archcomponentspracticeapp.data.service.AnimalAPIClient;
 import taffy.co.za.archcomponentspracticeapp.models.Animal;
 
 public class AnimalsListActiivity extends AppCompatActivity {
@@ -18,6 +27,8 @@ public class AnimalsListActiivity extends AppCompatActivity {
     AnimalsRecyclerViewAdapter animalsAdapter;
     ArrayList<Animal> animalsList;
     private Toolbar toolbar;
+    AnimalAPI animalAPI;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +37,9 @@ public class AnimalsListActiivity extends AppCompatActivity {
 
         setToolbar();
         addAnimals();
+    }
+
+    private void setRecyclerView() {
         animalsRecycler = findViewById(R.id.animals_recyclerview);
         animalsRecycler.setLayoutManager(new GridLayoutManager(this, 2));
         animalsAdapter = new AnimalsRecyclerViewAdapter(this, animalsList);
@@ -33,13 +47,35 @@ public class AnimalsListActiivity extends AppCompatActivity {
     }
 
     public void addAnimals(){
-        animalsList = new ArrayList<Animal>();
-        animalsList.add(new Animal("Lion","This is  just a lion and we trying it out","lion.jpg"));
+       // animalsList = new ArrayList<Animal>();
+        /*animalsList.add(new Animal("Lion","This is  just a lion and we trying it out","lion.jpg"));
         animalsList.add(new Animal("Zebra","This is  just a zebra and we trying it out","zebra.jpg"));
         animalsList.add(new Animal("Dog","This is  just a dog and we trying it out","dog.jpg"));
         animalsList.add(new Animal("Cat","This is  just a cat and we trying it out","cat.jpg"));
         animalsList.add(new Animal("Horse","This is  just a horse and we trying it out","horse.png"));
-        animalsList.add(new Animal("Tiger","This is  just a tiger and we trying it out","tiger.jpg"));
+        animalsList.add(new Animal("Tiger","This is  just a tiger and we trying it out","tiger.jpg"));*/
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading");
+        progressDialog.show();
+
+
+        animalAPI = AnimalAPIClient.getAPIClient().create(AnimalAPI.class);
+        Call<ArrayList<Animal>> call = animalAPI.getAllAnimals("all");
+        call.enqueue(new Callback<ArrayList<Animal>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Animal>> call, Response<ArrayList<Animal>> response) {
+                animalsList = response.body();
+                progressDialog.dismiss();
+                setRecyclerView();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Animal>> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(AnimalsListActiivity.this, "Can not retrieve animals list.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setToolbar() {

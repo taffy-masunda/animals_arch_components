@@ -29,22 +29,12 @@ public class MainActivity extends AppCompatActivity {
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Animal Games");
-        toolbar.setNavigationIcon(R.drawable.back_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.super.onBackPressed();
-            }
-        });
         setSupportActionBar(toolbar);
     }
 
     private void setArray(){
-        categories = new String[]{"category 1", "two", "three", "three", "three", "three", "three",
-                "three", "three", "three", "three", "three", "three", "three", "three", "three",
-                "three", "three", "three", "three", "three", "three", "three", "three", "three",
-                "three", "three", "three", "three", "three", "three", "three", "three", "three",
-                "three", "three"};
+        categories = new String[]{"Farm Animals", "Jungle Animals", "Pets", "Water Animals", "Birds", "Insects",
+                "Reptiles", "Iceland Animals"};
     }
 
     private void initializaCategoryRecyclerview() {
