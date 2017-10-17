@@ -30,7 +30,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/forward_chevron"
-        android:layout_marginTop="12dp"
+        android:layout_margin="12dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 </android.support.constraint.ConstraintLayout>

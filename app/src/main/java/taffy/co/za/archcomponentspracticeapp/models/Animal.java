@@ -14,6 +14,15 @@ public class Animal {
     private String image_url;
     private String category;
 
+    public Animal() {
+    }
+
+    public Animal(String name, String description,  String image_url) {
+        this.name = name;
+        this.description = description;
+        this.image_url = image_url;
+    }
+
     public String getId() {
         return this.id;
     }
