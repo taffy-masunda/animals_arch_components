@@ -23,7 +23,7 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
     FloatingActionButton speakOutFab;
     TextToSpeech textToSpeech;
     int result;
-    private String notSupported = "Sorry, text to speech not supported on your device.";
+    private static final String notSupported = "Sorry, text to speech not supported on your device.";
     Bundle animalDetailsBundle;
 
     @Override
@@ -33,8 +33,7 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
 
         initializeVariables();
         setToolbar();
-        setAnimalImageview();
-        setViewText();
+        setViewTextAndImage();
     }
 
     private void initializeVariables() {
@@ -62,7 +61,7 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
 
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Cat");
+        toolbar.setTitle(animalDetailsBundle.get("animalName").toString());
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -73,18 +72,16 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    private void setAnimalImageview() {
-        Glide.with(this)
-                .load(R.drawable.horse)
-                .into(animalImageview);
-    }
-
-    private void setViewText() {
+    private void setViewTextAndImage() {
+        String url = "http://api.spectradigital.co.za/animals_app/animal_pics/" + animalDetailsBundle.get("imageUrl");
         String animalName = animalDetailsBundle.get("animalName").toString();
         String animalCategory = animalDetailsBundle.get("animalCategory").toString();
         String animalHabitat = animalDetailsBundle.get("animalHabitat").toString();
         String animalDescription = animalDetailsBundle.get("animalDescription").toString();
 
+        Glide.with(this)
+                .load(url)
+                .into(animalImageview);
         nameTextview.setText(animalName);
         categoryTextview.setText(animalCategory);
         habitatTextview.setText(animalHabitat);

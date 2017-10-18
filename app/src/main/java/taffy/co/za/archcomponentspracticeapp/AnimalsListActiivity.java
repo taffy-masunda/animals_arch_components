@@ -29,39 +29,40 @@ public class AnimalsListActiivity extends AppCompatActivity {
     private Toolbar toolbar;
     AnimalAPI animalAPI;
     ProgressDialog progressDialog;
+    Bundle categoryBundle;
+    String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animals_list_actiivity);
 
+        categoryBundle = getIntent().getExtras();
+        category = categoryBundle.get("animalCategory").toString();
         setToolbar();
         addAnimals();
     }
 
-    private void setRecyclerView() {
-        animalsRecycler = findViewById(R.id.animals_recyclerview);
-        animalsRecycler.setLayoutManager(new GridLayoutManager(this, 2));
-        animalsAdapter = new AnimalsRecyclerViewAdapter(this, animalsList);
-        animalsRecycler.setAdapter(animalsAdapter);
+    private void setToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(categoryBundle.get("animalCategoryDescription").toString());
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back_arrow);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimalsListActiivity.super.onBackPressed();
+            }
+        });
     }
 
-    public void addAnimals(){
-       // animalsList = new ArrayList<Animal>();
-        /*animalsList.add(new Animal("Lion","This is  just a lion and we trying it out","lion.jpg"));
-        animalsList.add(new Animal("Zebra","This is  just a zebra and we trying it out","zebra.jpg"));
-        animalsList.add(new Animal("Dog","This is  just a dog and we trying it out","dog.jpg"));
-        animalsList.add(new Animal("Cat","This is  just a cat and we trying it out","cat.jpg"));
-        animalsList.add(new Animal("Horse","This is  just a horse and we trying it out","horse.png"));
-        animalsList.add(new Animal("Tiger","This is  just a tiger and we trying it out","tiger.jpg"));*/
-
+    public void addAnimals() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading");
         progressDialog.show();
 
-
         animalAPI = AnimalAPIClient.getAPIClient().create(AnimalAPI.class);
-        Call<ArrayList<Animal>> call = animalAPI.getAllAnimals("all");
+        Call<ArrayList<Animal>> call = animalAPI.getAllAnimals(category);
         call.enqueue(new Callback<ArrayList<Animal>>() {
             @Override
             public void onResponse(Call<ArrayList<Animal>> call, Response<ArrayList<Animal>> response) {
@@ -78,16 +79,10 @@ public class AnimalsListActiivity extends AppCompatActivity {
         });
     }
 
-    private void setToolbar() {
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Farm Animals");
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.back_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AnimalsListActiivity.super.onBackPressed();
-            }
-        });
+    private void setRecyclerView() {
+        animalsRecycler = findViewById(R.id.animals_recyclerview);
+        animalsRecycler.setLayoutManager(new GridLayoutManager(this, 2));
+        animalsAdapter = new AnimalsRecyclerViewAdapter(this, animalsList);
+        animalsRecycler.setAdapter(animalsAdapter);
     }
 }

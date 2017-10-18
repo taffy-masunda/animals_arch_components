@@ -9,7 +9,7 @@ import android.view.View;
 
 import taffy.co.za.archcomponentspracticeapp.adapters.CategoryRecyclerViewAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity {
 
     RecyclerView categoryRecycler;
     CategoryRecyclerViewAdapter categoryRecyclerViewAdapter;
@@ -21,16 +21,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setToolbar();
+        //setToolbar();
         setArray();
         initializaCategoryRecyclerview();
     }
 
+    /*
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Animal Games");
+        toolbar.setTitle("DigiZoo");
         setSupportActionBar(toolbar);
-    }
+    }*/
 
     private void setArray(){
         categories = new String[]{"Farm Animals", "Jungle Animals", "Pets", "Water Animals", "Birds", "Insects",
@@ -42,5 +43,11 @@ public class MainActivity extends AppCompatActivity {
         categoryRecycler.setLayoutManager(new LinearLayoutManager(this));
         categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(this, categories);
         categoryRecycler.setAdapter(categoryRecyclerViewAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        // do nothing
     }
 }

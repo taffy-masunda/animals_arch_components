@@ -25,6 +25,7 @@ public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecy
 
     Context context;
     ArrayList<Animal> animals;
+    String imageUrl;
 
     public AnimalsRecyclerViewAdapter(Context context, ArrayList<Animal>animals) {
         this.context = context;
@@ -42,12 +43,11 @@ public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecy
     @Override
     public void onBindViewHolder(AnimalViewHolder holder, int position) {
         holder.animalName.setText(animals.get(position).getName().toString());
-        String imageUrl = "http://api.spectradigital.co.za/animals_app/animal_pics/" + animals.get(position).getImageUrl().toString();
+        imageUrl = "http://api.spectradigital.co.za/animals_app/animal_pics/" + animals.get(position).getImageUrl().toString();
         Glide.with(context)
                 .load(imageUrl)
                 .into(holder.animalImage);
     }
-
 
     @Override
     public int getItemCount() {
@@ -72,10 +72,11 @@ public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecy
         public void onClick(View view) {
             Intent openDetailedAtivity = new Intent(context, AnimalDetailsActivity.class);
             Bundle animalBundle = new Bundle();
-            animalBundle.putString("animalName", "Goat");
-            animalBundle.putString("animalCategory", "Jump");
-            animalBundle.putString("animalHabitat", "INto");
-            animalBundle.putString("animalDescription", "the river!");
+            animalBundle.putString("imageUrl", animals.get(getAdapterPosition()).getImageUrl().toString());
+            animalBundle.putString("animalName", animals.get(getAdapterPosition()).getName().toString());
+            animalBundle.putString("animalCategory", animals.get(getAdapterPosition()).getCategory().toString());
+            animalBundle.putString("animalHabitat", animals.get(getAdapterPosition()).getHabitat().toString());
+            animalBundle.putString("animalDescription", animals.get(getAdapterPosition()).getDescription().toString());
             openDetailedAtivity.putExtras(animalBundle);
             context.startActivity(openDetailedAtivity);
         }
