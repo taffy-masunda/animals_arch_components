@@ -23,7 +23,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     String[]categories;
     Bundle categoryBundle;
     String[] categoryMapped = {"farm", "jungle", "pet", "water", "bird", "insect", "reptile", "ice"};
-    int []categoryIcons = {R.drawable.farm, R.drawable.jungle, R.drawable.pet, R.drawable.fish, R.drawable.bird, R.drawable.insect, R.drawable.reptile, R.drawable.ice};
+    int []categoryIcons = {R.drawable.farm, R.drawable.jungle, R.drawable.pet, R.drawable.big_fish, R.drawable.bird, R.drawable.insect, R.drawable.reptile, R.drawable.ice};
 
     public CategoryRecyclerViewAdapter(Context context, String[] categories) {
         this.context = context;

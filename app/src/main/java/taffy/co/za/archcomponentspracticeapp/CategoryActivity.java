@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import taffy.co.za.archcomponentspracticeapp.adapters.CategoryRecyclerViewAdapter;
 
@@ -14,12 +13,12 @@ public class CategoryActivity extends AppCompatActivity {
     RecyclerView categoryRecycler;
     CategoryRecyclerViewAdapter categoryRecyclerViewAdapter;
     String[] categories;
-    private Toolbar toolbar;
+   // private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_category);
 
         //setToolbar();
         setArray();
@@ -48,6 +47,6 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        // do nothing
+        super.finish();
     }
 }

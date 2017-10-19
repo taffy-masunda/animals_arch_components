@@ -4,27 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="taffy.co.za.archcomponentspracticeapp.CategoryActivity">
+    tools:context="taffy.co.za.archcomponentspracticeapp.CategoryActivity"
+    android:background="#EEE">
 
-    <!--
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+
+    <ImageView
+        android:id="@+id/select_image"
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/select_category"/>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/category_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="24dp"
+        android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/select_image"
         app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>

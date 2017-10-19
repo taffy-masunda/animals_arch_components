@@ -1,12 +1,14 @@
 package taffy.co.za.archcomponentspracticeapp;
 
 import android.app.ProgressDialog;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ public class AnimalsListActiivity extends AppCompatActivity {
 
     RecyclerView animalsRecycler;
     AnimalsRecyclerViewAdapter animalsAdapter;
+    ImageView loadingImage;
     ArrayList<Animal> animalsList;
     private Toolbar toolbar;
     AnimalAPI animalAPI;
@@ -39,6 +42,7 @@ public class AnimalsListActiivity extends AppCompatActivity {
 
         categoryBundle = getIntent().getExtras();
         category = categoryBundle.get("animalCategory").toString();
+        loadingImage = findViewById(R.id.loading_image);
         setToolbar();
         addAnimals();
     }
@@ -57,24 +61,20 @@ public class AnimalsListActiivity extends AppCompatActivity {
     }
 
     public void addAnimals() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading");
-        progressDialog.show();
-
         animalAPI = AnimalAPIClient.getAPIClient().create(AnimalAPI.class);
         Call<ArrayList<Animal>> call = animalAPI.getAllAnimals(category);
         call.enqueue(new Callback<ArrayList<Animal>>() {
             @Override
             public void onResponse(Call<ArrayList<Animal>> call, Response<ArrayList<Animal>> response) {
                 animalsList = response.body();
-                progressDialog.dismiss();
+                loadingImage.setVisibility(View.GONE);
                 setRecyclerView();
             }
 
             @Override
             public void onFailure(Call<ArrayList<Animal>> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(AnimalsListActiivity.this, "Can not retrieve animals list.", Toast.LENGTH_SHORT).show();
+                loadingImage.setVisibility(View.GONE);
+                Toast.makeText(AnimalsListActiivity.this, "Error getting animals.", Toast.LENGTH_SHORT).show();
             }
         });
     }
