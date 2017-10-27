@@ -4,5 +4,5 @@
     <string name="habitat_placeholder">Habitat</string>
     <string name="category_placeholder">Category</string>
     <string name="animal_name_placeholder">Animal Name</string>
-    <string name="animal_image_description">Image of animal</string>
+    <string name="animal_image_description">Image of animal </string>
 </resources>
