@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">ArchComponentsPracticeApp</string>
+    <string name="app_name">eZoo</string>
+    <string name="animal_description_placeholder">Description of the animal, it\'s diet and where it\'s activities</string>
+    <string name="habitat_placeholder">Habitat</string>
+    <string name="category_placeholder">Category</string>
+    <string name="animal_name_placeholder">Animal Name</string>
+    <string name="animal_image_description">Image of animal</string>
 </resources>
