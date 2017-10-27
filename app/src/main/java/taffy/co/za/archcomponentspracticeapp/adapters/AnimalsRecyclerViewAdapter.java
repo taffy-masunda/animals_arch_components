@@ -2,7 +2,6 @@ package taffy.co.za.archcomponentspracticeapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,12 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import taffy.co.za.archcomponentspracticeapp.AnimalDetailsActivity;
@@ -25,10 +21,10 @@ import taffy.co.za.archcomponentspracticeapp.models.Animal;
 public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecyclerViewAdapter.AnimalViewHolder> {
 
     Context context;
-    ArrayList<Animal> animals;
+    List<Animal> animals;
     String imageUrl;
 
-    public AnimalsRecyclerViewAdapter(Context context, ArrayList<Animal>animals) {
+    public AnimalsRecyclerViewAdapter(Context context, List<Animal>animals) {
         this.context = context;
         this.animals = animals;
     }

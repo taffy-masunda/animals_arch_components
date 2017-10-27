@@ -2,8 +2,6 @@ package taffy.co.za.archcomponentspracticeapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.Resource;
-
-import taffy.co.za.archcomponentspracticeapp.AnimalsListActiivity;
+import taffy.co.za.archcomponentspracticeapp.AnimalsListActivity;
 import taffy.co.za.archcomponentspracticeapp.R;
 
 public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRecyclerViewAdapter.ItemViewHolder> {
@@ -62,7 +58,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         @Override
         public void onClick(View view) {
             categoryBundle = new Bundle();
-            Intent openAnimalsListActivity = new Intent(context, AnimalsListActiivity.class);
+            Intent openAnimalsListActivity = new Intent(context, AnimalsListActivity.class);
             categoryBundle.putString("animalCategory", categoryMapped[getAdapterPosition()].toString());
             categoryBundle.putString("animalCategoryDescription", categories[getAdapterPosition()].toString());
             openAnimalsListActivity.putExtras(categoryBundle);

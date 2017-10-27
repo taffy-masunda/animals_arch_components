@@ -1,10 +1,9 @@
 package taffy.co.za.archcomponentspracticeapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 
 import taffy.co.za.archcomponentspracticeapp.adapters.CategoryRecyclerViewAdapter;
 
@@ -20,17 +19,9 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        //setToolbar();
         setArray();
         initializaCategoryRecyclerview();
     }
-
-    /*
-    private void setToolbar() {
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("DigiZoo");
-        setSupportActionBar(toolbar);
-    }*/
 
     private void setArray(){
         categories = new String[]{"Farm Animals", "Jungle Animals", "Pets", "Water Animals", "Birds", "Insects",
@@ -46,7 +37,6 @@ public class CategoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         super.finish();
     }
 }
