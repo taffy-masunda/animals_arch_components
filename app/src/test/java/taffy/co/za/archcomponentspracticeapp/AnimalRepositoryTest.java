@@ -6,6 +6,6 @@ import org.junit.Test;
 public class AnimalRepositoryTest {
     @Test
     public void checkList(){
-        
+
     }
 }
