@@ -36,6 +36,7 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
         initializeVariables();
         setToolbar();
         setViewTextAndImage();
+        setUpAnimalPlayer("howl_catoye.mp3");
     }
 
     private void initializeVariables() {
@@ -46,8 +47,6 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
         habitatTextview = findViewById(R.id.habitat_textview);
         descriptionTextview = findViewById(R.id.description_textview);
         animalSoundFab = findViewById(R.id.read_out_fab);
-
-        setUpAnimalPlayer("howl_catoye.mp3");
 
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -93,18 +92,19 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
     }
 
     public void setUpAnimalPlayer(String animalSound){
-        Uri animalSoundUri = Uri.parse( BASE_URL + "/animal_sounds/" + animalSound);
-        animalSoundPlayer = MediaPlayer.create(getApplicationContext(), animalSoundUri);
+        if(!animalDetailsBundle.get("soundUrl").equals(null)){
+            Uri animalSoundUri = Uri.parse( BASE_URL + "/animal_sounds/" + animalDetailsBundle.get("soundUrl"));
+            animalSoundPlayer = MediaPlayer.create(getApplicationContext(), animalSoundUri);
+        }
     }
 
     public void playAnimalSound() {
         animalSoundPlayer.start();
+        animalSoundFab.setEnabled(false);
         animalSoundPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                animalSoundPlayer.reset();
-                animalSoundPlayer.release();
-                animalSoundPlayer = null;
+                animalSoundFab.setEnabled(true);
             }
         });
     }
@@ -113,15 +113,7 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.read_out_fab:
-
                 playAnimalSound();
-
-                /*if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    Toast.makeText(AnimalDetailsActivity.this, notSupported, Toast.LENGTH_SHORT).show();
-                } else {
-                    String textToSpeak = "This is a " + nameTextview.getText().toString() + " and it lives in a " + habitatTextview.getText().toString();
-                    textToSpeech.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                }*/
                 break;
         }
     }
@@ -129,7 +121,8 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        textToSpeech.stop();
-        textToSpeech.shutdown();
+        animalSoundPlayer.reset();
+        animalSoundPlayer.release();
+        animalSoundPlayer = null;
     }
 }

@@ -20,9 +20,9 @@ import taffy.co.za.archcomponentspracticeapp.models.Animal;
 
 public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecyclerViewAdapter.AnimalViewHolder> {
 
-    Context context;
-    List<Animal> animals;
-    String imageUrl;
+    private Context context;
+    private List<Animal> animals;
+    private String imageUrl;
 
     public AnimalsRecyclerViewAdapter(Context context, List<Animal>animals) {
         this.context = context;
@@ -33,8 +33,7 @@ public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecy
     public AnimalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View row = inflater.inflate(R.layout.animal_list_item, parent, false);
-        AnimalViewHolder itemHolder = new AnimalViewHolder(row);
-        return itemHolder;
+        return new AnimalViewHolder(row);
     }
 
     @Override
@@ -74,6 +73,7 @@ public class AnimalsRecyclerViewAdapter extends RecyclerView.Adapter<AnimalsRecy
             animalBundle.putString("animalCategory", animals.get(getAdapterPosition()).getCategory().toString());
             animalBundle.putString("animalHabitat", animals.get(getAdapterPosition()).getHabitat().toString());
             animalBundle.putString("animalDescription", animals.get(getAdapterPosition()).getDescription().toString());
+            animalBundle.putString("soundUrl", animals.get(getAdapterPosition()).getSoundUrl().toString());
             openDetailedAtivity.putExtras(animalBundle);
             context.startActivity(openDetailedAtivity);
         }
