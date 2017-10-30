@@ -1,15 +1,15 @@
 package taffy.co.za.archcomponentspracticeapp;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.Voice;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 
@@ -20,11 +20,13 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
     android.support.v7.widget.Toolbar toolbar;
     ImageView animalImageview;
     TextView nameTextview, categoryTextview, habitatTextview, descriptionTextview;
-    FloatingActionButton speakOutFab;
+    FloatingActionButton animalSoundFab;
     TextToSpeech textToSpeech;
     int result;
     private static final String notSupported = "Sorry, text to speech not supported on your device.";
     Bundle animalDetailsBundle;
+    MediaPlayer animalSoundPlayer;
+    public static String BASE_URL = "http://api.spectradigital.co.za/animals_app";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,9 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
         categoryTextview = findViewById(R.id.category_textview);
         habitatTextview = findViewById(R.id.habitat_textview);
         descriptionTextview = findViewById(R.id.description_textview);
-        speakOutFab = findViewById(R.id.read_out_fab);
+        animalSoundFab = findViewById(R.id.read_out_fab);
+
+        setUpAnimalPlayer("howl_catoye.mp3");
 
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -56,7 +60,7 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        speakOutFab.setOnClickListener(this);
+        animalSoundFab.setOnClickListener(this);
     }
 
     private void setToolbar() {
@@ -73,7 +77,7 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
     }
 
     private void setViewTextAndImage() {
-        String url = "http://api.spectradigital.co.za/animals_app/animal_pics/" + animalDetailsBundle.get("imageUrl");
+        String url = BASE_URL + "/animal_pics/" + animalDetailsBundle.get("imageUrl");
         String animalName = animalDetailsBundle.get("animalName").toString();
         String animalCategory = animalDetailsBundle.get("animalCategory").toString();
         String animalHabitat = animalDetailsBundle.get("animalHabitat").toString();
@@ -88,16 +92,36 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
         descriptionTextview.setText(animalDescription);
     }
 
+    public void setUpAnimalPlayer(String animalSound){
+        Uri animalSoundUri = Uri.parse( BASE_URL + "/animal_sounds/" + animalSound);
+        animalSoundPlayer = MediaPlayer.create(getApplicationContext(), animalSoundUri);
+    }
+
+    public void playAnimalSound() {
+        animalSoundPlayer.start();
+        animalSoundPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                animalSoundPlayer.reset();
+                animalSoundPlayer.release();
+                animalSoundPlayer = null;
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.read_out_fab:
-                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+
+                playAnimalSound();
+
+                /*if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                     Toast.makeText(AnimalDetailsActivity.this, notSupported, Toast.LENGTH_SHORT).show();
                 } else {
                     String textToSpeak = "This is a " + nameTextview.getText().toString() + " and it lives in a " + habitatTextview.getText().toString();
                     textToSpeech.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                }
+                }*/
                 break;
         }
     }
