@@ -58,7 +58,7 @@ public class AnimalDetailsActivity extends AppCompatActivity implements View.OnC
                     Toast.makeText(AnimalDetailsActivity.this, notSupported, Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        }); 
 
         animalSoundFab.setOnClickListener(this);
     }
